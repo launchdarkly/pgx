@@ -132,6 +132,7 @@ func (tx *Tx) CommitEx(ctx context.Context) error {
 		tx.status = TxStatusCommitFailure
 		tx.err = err
 		// A commit failure leaves the connection in an undefined state
+		err = tx.conn.termContext(err)
 		tx.conn.die(errors.New("commit failed"))
 	}
 
